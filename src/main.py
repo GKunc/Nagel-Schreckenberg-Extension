@@ -14,11 +14,11 @@ def agent_portrayal(agent):
 
 
 if __name__ == '__main__':
-    grid = CanvasGrid(agent_portrayal, 100, 1, 500, 100)
+    grid = CanvasGrid(agent_portrayal, 100, 2, 500, 100)
     server = ModularServer(Simulation,
                            [grid],
                            "Traffic simulation",
-                           {"width": 100, "height": 1})
+                           {"width": 100, "height": 2})
     server.port = 8521
     server.launch()
 
