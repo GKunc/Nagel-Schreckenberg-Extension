@@ -10,7 +10,7 @@ class Car(Agent):
     def __init__(self, unique_id, model, road_length):
         super().__init__(unique_id, model)
         self.road_length = road_length
-        self.color = "%06x" % random.randint(0, 0xFFFFFF);
+        self.color = "%06x" % random.randint(0, 0xFFFFFF)
         self.min_velocity = 0
         self.max_velocity = 5
         self.velocity = random.randint(self.min_velocity, self.max_velocity)
@@ -62,7 +62,6 @@ class Car(Agent):
     def move_or_remove_car(self):
         new_position = self.pos[0] + self.velocity
         if new_position > self.road_length:
-            print("KLL")
             self.model.grid.remove_agent(self)
             self.model.schedule.remove(self)
         else:

@@ -4,7 +4,9 @@ from mesa import Model
 from mesa.space import MultiGrid
 from mesa.time import RandomActivation
 
-from car import Car
+from cars.family_car import FamilyCar
+from cars.truck import Truck
+from cars.sports_car import SportsCar
 
 
 class Simulation(Model):
@@ -19,11 +21,12 @@ class Simulation(Model):
 
         # Create agents
         for i in range(self.num_agents):
-            a = Car(i, self, self.road_length)
-            self.schedule.add(a)
+            # Truck, SportsCar, FamilyCar
+            car = self.create_car(i)
+            self.schedule.add(car)
             x = self.random.randrange(self.grid.width)
             y = self.random.randrange(self.grid.height)
-            self.grid.place_agent(a, (x, y))
+            self.grid.place_agent(car, (x, y))
         self.running = True
 
     def step(self):
@@ -34,7 +37,16 @@ class Simulation(Model):
         score = np.random.choice([1, 0], p=[self.spawn_probability, 1 - self.spawn_probability])
         if score and self.grid.is_cell_empty((0, 0)):
             car_id = random.randint(1, 1000)
-            a = Car(car_id, self, self.road_length)
-            self.schedule.add(a)
+            car = self.create_car(car_id)
+            self.schedule.add(car)
             y = self.random.randrange(self.grid.height)
-            self.grid.place_agent(a, (0, y))
+            self.grid.place_agent(car, (0, y))
+
+    def create_car(self, i):
+        car_type = self.random.randrange(3)
+        if car_type == 0:
+            return FamilyCar(i, self, self.road_length)
+        elif car_type == 1:
+            return SportsCar(i, self, self.road_length)
+        elif car_type == 2:
+            return Truck(i, self, self.road_length)
