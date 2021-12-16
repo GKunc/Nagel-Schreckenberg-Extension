@@ -16,17 +16,74 @@ class Car(Agent):
         self.velocity = random.randint(self.min_velocity, self.max_velocity)
 
     def step(self):
-        # 1.Acceleration
-        self.increase_velocity()
+        lane_changed = self.should_change_lane()
 
-        # 2. Slow down not to hit car ahead
-        self.slow_down()
+        if lane_changed:
+            self.change_lane()
+            print("CHANGED")
+        else:
+            # 1.Acceleration
+            self.increase_velocity()
 
-        # 3. Randomization
-        self.randomize_velocity(self.rand_probability)
+            # 2. Slow down not to hit car ahead
+            self.slow_down()
+
+            # 3. Randomization
+            self.randomize_velocity(self.rand_probability)
 
         # 4. Car motion
         self.move_or_remove_car()
+
+    def change_lane(self):
+        lane_to_change = self.get_lane_to_change()
+        self.model.grid.move_agent(self, (self.pos[0], lane_to_change))
+
+    def should_change_lane(self):
+        # 1. has car moving slower ahead
+        if not self.lane_should_be_changed():
+            return False
+
+        # 2. no car ahead on other (opposite) lane
+        if not self.has_enough_space_ahead_on_opposite_lane():
+            return False
+
+        # 3. no car is moving behind on other (opposite) lane
+        if not self.has_enough_space_behind_on_opposite_lane():
+            return False
+
+        return True
+
+    def lane_should_be_changed(self):
+        lane_to_change = self.get_lane_to_change()
+        if lane_to_change == 0:
+            return True
+        for i in range(self.pos[0] + 1, self.pos[0] + self.max_velocity):
+            try:
+                if not(self.model.grid.is_cell_empty((i, self.pos[1]))):
+                    return True
+            except IndexError:
+                return False
+        return False
+
+    def has_enough_space_ahead_on_opposite_lane(self):
+        lane_to_change = self.get_lane_to_change()
+        for i in range(self.pos[0] + 1, self.pos[0] + self.velocity):
+            try:
+                if not (self.model.grid.is_cell_empty((i, lane_to_change))):
+                    return False
+            except IndexError:
+                return False
+        return True
+
+    def has_enough_space_behind_on_opposite_lane(self):
+        lane_to_change = self.get_lane_to_change()
+        for i in range(self.pos[0] - self.velocity, self.pos[0] + 1):
+            try:
+                if not (self.model.grid.is_cell_empty((i, lane_to_change))):
+                    return False
+            except IndexError:
+                return False
+        return True
 
     def increase_velocity(self):
         self.velocity = min(self.max_velocity, self.velocity+1)
@@ -66,3 +123,8 @@ class Car(Agent):
             self.model.schedule.remove(self)
         else:
             self.model.grid.move_agent(self, (new_position, self.pos[1]))
+
+    def get_lane_to_change(self):
+        if self.pos[1] == 0:
+            return 1
+        return 0

@@ -27,12 +27,12 @@ def agent_portrayal(agent):
                 "Filled": "true",
                 "Layer": 0,
                 "Color": "red",
-                "w": 0.7,
+                "w": 0.5,
                 "h": 0.1}
 
 
 if __name__ == '__main__':
-    grid = CanvasGrid(agent_portrayal, 100, 2, 500, 100)
+    grid = CanvasGrid(agent_portrayal, 100, 2, 500, 30)
     server = ModularServer(Simulation,
                            [grid],
                            "Traffic simulation",
