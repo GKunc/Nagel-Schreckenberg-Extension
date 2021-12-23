@@ -1,6 +1,8 @@
 from mesa.visualization.modules import CanvasGrid
 from mesa.visualization.ModularVisualization import ModularServer
 
+from road.construction import Construction
+
 from simulation import Simulation
 from cars.sports_car import SportsCar
 from cars.family_car import FamilyCar
@@ -29,6 +31,13 @@ def agent_portrayal(agent):
                 "Color": "red",
                 "w": 0.5,
                 "h": 0.1}
+    elif isinstance(agent, Construction):
+        return {"Shape": "rect",
+                "Filled": "true",
+                "Layer": 1,
+                "Color": "black",
+                "w": 0.8,
+                "h": 0.8}
 
 
 if __name__ == '__main__':

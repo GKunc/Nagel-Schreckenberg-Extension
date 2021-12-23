@@ -20,7 +20,6 @@ class Car(Agent):
 
         if lane_changed:
             self.change_lane()
-            print("CHANGED")
         else:
             # 1.Acceleration
             self.increase_velocity()
