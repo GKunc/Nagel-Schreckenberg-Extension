@@ -2,6 +2,8 @@ from mesa import Agent
 import numpy as np
 import random
 
+from road import entrance
+
 
 class Car(Agent):
     rand_probability = 0.5
@@ -105,9 +107,11 @@ class Car(Agent):
     def get_car_ahead(self, position):
         car_ahead = None
         for i in range(position[0] + 1, self.road_length):
-            if not(self.model.grid.is_cell_empty((i, position[1]))):
-                car_ahead = (i, position[1])
-                break
+            cell = self.model.grid.get_cell_list_contents([(i, position[1])])
+            if len(cell) > 0:
+                if not(self.model.grid.is_cell_empty((i, position[1]))) and not(type(cell[0]) == entrance.Entrance):
+                    car_ahead = (i, position[1])
+                    break
         return car_ahead
 
     def calculate_distance(self, car_ahead):

@@ -9,6 +9,8 @@ from cars.truck import Truck
 from cars.sports_car import SportsCar
 
 from road.construction import Construction
+from road.entrance import Entrance
+from road.exit import Exit
 
 class Simulation(Model):
     spawn_probability = 0.2
@@ -31,7 +33,21 @@ class Simulation(Model):
 
         for i in range(self.construction_length):
             construction = Construction(i+10000, self)
-            self.grid.place_agent(construction, (i + 20,0))
+            self.grid.place_agent(construction, (i + 20, 0))
+
+
+        # Modify function not to stop on Exit on Entrance 
+        # On entry create random car
+        # On exit remove randomly car 
+        
+        # exit = Exit(999999, self)
+        # exit2 = Exit(999998, self)
+        # self.grid.place_agent(exit, (20, 1))
+        # self.grid.place_agent(exit2, (40, 1))
+
+        entrance = Entrance(222222, self, self.road_length)
+        self.schedule.add(entrance)
+        self.grid.place_agent(entrance, (22, 1))
         self.running = True
 
     def step(self):
