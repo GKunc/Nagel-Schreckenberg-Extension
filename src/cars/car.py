@@ -3,6 +3,7 @@ import numpy as np
 import random
 
 from road import entrance
+from road import exit
 
 
 class Car(Agent):
@@ -12,7 +13,6 @@ class Car(Agent):
     def __init__(self, unique_id, model, road_length):
         super().__init__(unique_id, model)
         self.road_length = road_length
-        self.color = "%06x" % random.randint(0, 0xFFFFFF)
         self.min_velocity = 0
         self.max_velocity = 5
         self.velocity = random.randint(self.min_velocity, self.max_velocity)
@@ -34,6 +34,7 @@ class Car(Agent):
 
         # 4. Car motion
         self.move_or_remove_car()
+
 
     def change_lane(self):
         lane_to_change = self.get_lane_to_change()
@@ -109,7 +110,7 @@ class Car(Agent):
         for i in range(position[0] + 1, self.road_length):
             cell = self.model.grid.get_cell_list_contents([(i, position[1])])
             if len(cell) > 0:
-                if not(self.model.grid.is_cell_empty((i, position[1]))) and not(type(cell[0]) == entrance.Entrance):
+                if not(self.model.grid.is_cell_empty((i, position[1]))) and not(type(cell[0]) == entrance.Entrance) and not(type(cell[0]) == exit.Exit):
                     car_ahead = (i, position[1])
                     break
         return car_ahead
@@ -128,6 +129,9 @@ class Car(Agent):
             self.model.grid.move_agent(self, (new_position, self.pos[1]))
 
     def get_lane_to_change(self):
-        if self.pos[1] == 0:
-            return 1
-        return 0
+        try:
+            if self.pos[1] == 0:
+                return 1
+            return 0
+        except:
+            return 0

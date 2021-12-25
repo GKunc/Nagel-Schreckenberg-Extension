@@ -35,15 +35,9 @@ class Simulation(Model):
             construction = Construction(i+10000, self)
             self.grid.place_agent(construction, (i + 20, 0))
 
-
-        # Modify function not to stop on Exit on Entrance 
-        # On entry create random car
-        # On exit remove randomly car 
-        
-        # exit = Exit(999999, self)
-        # exit2 = Exit(999998, self)
-        # self.grid.place_agent(exit, (20, 1))
-        # self.grid.place_agent(exit2, (40, 1))
+        exit = Exit(999999, self)
+        self.schedule.add(exit)
+        self.grid.place_agent(exit, (40, 1))
 
         entrance = Entrance(222222, self, self.road_length)
         self.schedule.add(entrance)

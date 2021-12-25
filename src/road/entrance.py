@@ -19,6 +19,7 @@ class Entrance(Agent):
     def create_random_car(self):
         score = np.random.choice([1, 0], p=[self.spawn_probability, 1 - self.spawn_probability])
         if score and self.model.grid.is_cell_empty((self.pos[0] + 1, self.pos[1])):
+            print("New Car in Entrance")
             car_id = random.randint(1, 1000)
             car = self.add_unique_car(car_id)
             y = self.random.randrange(self.model.grid.height)
