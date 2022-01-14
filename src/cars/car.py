@@ -133,5 +133,5 @@ class Car(Agent):
             if self.pos[1] == 0:
                 return 1
             return 0
-        except Exception:
+        except:
             return 0

@@ -10,6 +10,8 @@ from cars.sports_car import SportsCar
 from cars.family_car import FamilyCar
 from cars.truck import Truck
 
+from visualization.HighwayModule import HighwayModule
+
 
 def agent_portrayal(agent):
     if isinstance(agent, FamilyCar):
@@ -58,8 +60,10 @@ def agent_portrayal(agent):
 
 if __name__ == '__main__':
     grid = CanvasGrid(agent_portrayal, 100, 2, 500, 30)
+    highway = HighwayModule(list(range(12)), 100, 500)
+
     server = ModularServer(Simulation,
-                           [grid],
+                           [grid, highway],
                            "Traffic simulation",
                            {"width": 100, "height": 2})
     server.port = 8521

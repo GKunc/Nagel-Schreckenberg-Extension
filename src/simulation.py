@@ -66,13 +66,13 @@ class Simulation(Model):
 
     def create_car(self, i):
         car_type = self.random.randrange(20)
-        score = np.random.choice([1, 0], p=[self.spawn_probability, 1 - self.spawn_probability])
-        if score:
-            if car_type % 2 == 0:  # 2, 4, 6, 8, 10, 12, 14, 16, 18, 20
-                return FamilyCar(i, self.model, self.road_length)
-            elif car_type == 0:  # 3, 9, 15
-                return Truck(i, self.model, self.road_length)
-            else: # 1, 5, 7, 11, 13, 17, 19
-                return SportsCar(i, self.model, self.road_length)
+        # score = np.random.choice([1, 0], p=[self.spawn_probability, 1 - self.spawn_probability])
+        # if score:
+        if car_type % 2 == 0:  # 2, 4, 6, 8, 10, 12, 14, 16, 18, 20
+            return FamilyCar(i, self, self.road_length)
+        elif car_type % 3 == 0:  # 3, 9, 15
+            return Truck(i, self, self.road_length)
+        else:  # 1, 5, 7, 11, 13, 17, 19
+            return SportsCar(i, self, self.road_length)
 
 
