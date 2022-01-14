@@ -1,7 +1,7 @@
 from mesa.visualization.ModularVisualization import VisualizationElement
-import numpy as np
 
 import cars.truck
+import road.construction
 from cars.family_car import FamilyCar
 from cars.sports_car import SportsCar
 from cars.truck import Truck
@@ -24,14 +24,15 @@ class HighwayModule(VisualizationElement):
     def render(self, model):
         car_agents = []
         for agent in model.schedule.agents:
+            print(type(agent))
+            print(type(agent.pos))
             if type(agent) == cars.truck.Truck:
-                print(agent.pos)
                 car_agents.append({"type": "Truck", "pos": agent.pos})
             elif type(agent) == cars.family_car.FamilyCar:
-                print(agent.pos)
                 car_agents.append({"type": "FamilyCar", "pos": agent.pos})
             elif type(agent) == cars.sports_car.SportsCar:
-                print(agent.pos)
                 car_agents.append({"type": "SportsCar", "pos": agent.pos})
+            elif type(agent) == road.construction.Construction:
+                car_agents.append({"type": "Construction", "pos": agent.pos})
 
         return car_agents

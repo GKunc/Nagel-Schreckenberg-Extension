@@ -7,9 +7,9 @@ var HighwayModule = function(bins, canvas_width, canvas_height) {
 
     // Create the chart object
     this.render = function(data) {
-        context.fillStyle = 'grey';
-        context.fillRect(0, 0, 500, 50);
-        context.fillRect(0, 50, 500, 50);
+        console.log(data)
+        context.rect(0, 0, 1000, 50);
+        context.rect(0, 50, 1000, 50);
         context.setLineDash([5, 10]);
         context.stroke();
 
@@ -26,12 +26,16 @@ var HighwayModule = function(bins, canvas_width, canvas_height) {
                 context.fillStyle = 'red';
                 context.fillRect(i*50, 5, 40, 40);
             }
+            if(data[i].type === "Construction") {
+                context.fillStyle = 'black';
+                context.fillRect(i*50, 5, 40, 40);
+            }
         }
     };
 
     this.reset = function() {
-        context.rect(0, 0, 500, 50);
-        context.rect(0, 50, 500, 50);
+        context.rect(0, 0, 1000, 50);
+        context.rect(0, 50, 1000, 50);
         context.setLineDash([5, 10]);
         context.stroke();
     };

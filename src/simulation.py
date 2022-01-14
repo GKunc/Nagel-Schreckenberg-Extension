@@ -34,6 +34,7 @@ class Simulation(Model):
         for i in range(self.construction_length):
             construction = Construction(i+10000, self)
             self.grid.place_agent(construction, (i + 20, 0))
+            self.schedule.add(construction)
 
         exit = Exit(999999, self)
         self.schedule.add(exit)

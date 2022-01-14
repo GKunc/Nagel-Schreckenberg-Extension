@@ -59,11 +59,11 @@ def agent_portrayal(agent):
 
 
 if __name__ == '__main__':
-    grid = CanvasGrid(agent_portrayal, 100, 2, 500, 30)
-    highway = HighwayModule(list(range(12)), 100, 500)
+    # grid = CanvasGrid(agent_portrayal, 100, 2, 500, 30)
+    highway = HighwayModule(list(range(1)), 100, 1000)
 
     server = ModularServer(Simulation,
-                           [grid, highway],
+                           [highway],
                            "Traffic simulation",
                            {"width": 100, "height": 2})
     server.port = 8521
