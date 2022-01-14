@@ -11,12 +11,12 @@ from cars.sports_car import SportsCar
 from road.construction import Construction
 from road.entrance import Entrance
 from road.exit import Exit
+import config
+
 
 class Simulation(Model):
-    spawn_probability = 0.2
+    spawn_probability = config.SPAWN_PROBABILITY
 
-    # Todo
-    # Add second lane
     def __init__(self, width=100, height=1):
         self.road_length = width
         self.num_agents = 20
@@ -65,14 +65,14 @@ class Simulation(Model):
         return car
 
     def create_car(self, i):
-        # Todo
-        # Add probability of spawning
-        car_type = self.random.randrange(3)
-        if car_type == 0:
-            return FamilyCar(i, self, self.road_length)
-        elif car_type == 1:
-            return SportsCar(i, self, self.road_length)
-        elif car_type == 2:
-            return Truck(i, self, self.road_length)
+        car_type = self.random.randrange(20)
+        score = np.random.choice([1, 0], p=[self.spawn_probability, 1 - self.spawn_probability])
+        if score:
+            if car_type % 2 == 0:  # 2, 4, 6, 8, 10, 12, 14, 16, 18, 20
+                return FamilyCar(i, self.model, self.road_length)
+            elif car_type == 0:  # 3, 9, 15
+                return Truck(i, self.model, self.road_length)
+            else: # 1, 5, 7, 11, 13, 17, 19
+                return SportsCar(i, self.model, self.road_length)
 
 

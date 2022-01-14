@@ -1,9 +1,11 @@
 import numpy as np
 from mesa import Agent
 from road import exit
+import config
+
 
 class Exit(Agent):
-    exit_probability = 0.1
+    exit_probability = config.EXIT_PROBABILITY
 
     def __init__(self, unique_id, model):
         super().__init__(unique_id, model)

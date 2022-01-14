@@ -2,13 +2,14 @@ from mesa import Agent
 import numpy as np
 import random
 
+import config
 from road import entrance
 from road import exit
 
 
 class Car(Agent):
-    rand_probability = 0.5
-    spawn_probability = 0.2
+    rand_probability = config.RANDOMIZE_VELOCITY_PROBABILITY
+    spawn_probability = config.SPAWN_PROBABILITY
 
     def __init__(self, unique_id, model, road_length):
         super().__init__(unique_id, model)
@@ -34,7 +35,6 @@ class Car(Agent):
 
         # 4. Car motion
         self.move_or_remove_car()
-
 
     def change_lane(self):
         lane_to_change = self.get_lane_to_change()
@@ -133,5 +133,5 @@ class Car(Agent):
             if self.pos[1] == 0:
                 return 1
             return 0
-        except:
+        except Exception:
             return 0
