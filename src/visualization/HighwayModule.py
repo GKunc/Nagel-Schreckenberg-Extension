@@ -21,20 +21,16 @@ class HighwayModule(VisualizationElement):
         self.js_code = "elements.push(" + new_element + ");"
 
     def render(self, model):
-        print("model.schedule.agents[0]")
-        print(model.schedule.agents[0])
         car_agents = []
         for agent in model.schedule.agents:
-            print(type(agent))
-            print(type(agent.pos))
-            # tu jest cos zle POS!!!
-            if type(agent) == cars.truck.Truck:
-                car_agents.append({"type": "Truck", "x": int(agent.pos[0]), "y":int( agent.pos[1])})
-            elif type(agent) == cars.family_car.FamilyCar:
-                car_agents.append({"type": "FamilyCar", "x": int(agent.pos[0]), "y": int(agent.pos[1])})
-            elif type(agent) == cars.sports_car.SportsCar:
-                car_agents.append({"type": "SportsCar", "x": int(agent.pos[0]), "y": int(agent.pos[1])})
-            elif type(agent) == road.construction.Construction:
-                car_agents.append({"type": "Construction", "x": int(agent.pos[0]), "y": int(agent.pos[1])})
+            if agent.pos is not None:
+                if type(agent) == cars.truck.Truck:
+                    car_agents.append({"type": "Truck", "x": int(agent.pos[0]), "y": int(agent.pos[1])})
+                elif type(agent) == cars.family_car.FamilyCar:
+                    car_agents.append({"type": "FamilyCar", "x": int(agent.pos[0]), "y": int(agent.pos[1])})
+                elif type(agent) == cars.sports_car.SportsCar:
+                    car_agents.append({"type": "SportsCar", "x": int(agent.pos[0]), "y": int(agent.pos[1])})
+                elif type(agent) == road.construction.Construction:
+                    car_agents.append({"type": "Construction", "x": int(agent.pos[0]), "y": int(agent.pos[1])})
 
         return car_agents

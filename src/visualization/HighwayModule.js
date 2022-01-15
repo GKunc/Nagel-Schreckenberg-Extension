@@ -1,4 +1,8 @@
 var HighwayModule = function(canvas_width, canvas_height) {
+    // Todo
+    // Add exits and entries to visualization
+    // Check why red car can go on constructions
+
     let canvas_tag = "<canvas width='" + canvas_width + "' height='" + canvas_height + "' ";
     canvas_tag += "style='border:1px dotted'></canvas>";
     let canvas = $(canvas_tag)[0];
@@ -11,16 +15,16 @@ var HighwayModule = function(canvas_width, canvas_height) {
 
         for(let i=0; i<data.length; i++) {
             if(data[i].type === "Truck") {
-                createTruckAgent(i);
+                createTruckAgent(data[i].x, data[i].y);
             }
             if(data[i].type === "FamilyCar") {
-                createFamilyCarAgent(i);
+                createFamilyCarAgent(data[i].x, data[i].y);
             }
             if(data[i].type === "SportsCar") {
-                createSportsCarAgent(i);
+                createSportsCarAgent(data[i].x, data[i].y);
             }
             if(data[i].type === "Construction") {
-                createConstructionAgent(i);
+                createConstructionAgent(data[i].x, data[i].y);
             }
         }
     };
@@ -39,32 +43,48 @@ var HighwayModule = function(canvas_width, canvas_height) {
         context.stroke();
     }
 
-    function createTruckAgent(i) {
+    function createTruckAgent(x, y) {
         context.fillStyle = 'green';
-        context.fillRect(i*50, 5, 45, 20);
+        if (y === 0)
+            context.fillRect(x*50, 5, 45, 20);
+        else
+            context.fillRect(x*50, 35, 45, 20);
     }
 
-    function createFamilyCarAgent(i) {
+    function createFamilyCarAgent(x, y) {
         context.fillStyle = 'blue';
-        context.fillRect(i*50, 5, 35, 20);
+        if (y === 0)
+            context.fillRect(x*50, 5, 35, 20);
+        else
+            context.fillRect(x*50, 35, 35, 20);
     }
 
-    function createSportsCarAgent(i) {
+    function createSportsCarAgent(x, y) {
         context.fillStyle = 'red';
-        context.fillRect(i*50, 5, 30, 20);
+        if (y === 0)
+            context.fillRect(x*50, 5, 30, 20);
+        else
+            context.fillRect(x*50, 35, 30, 20);
     }
 
-    function createConstructionAgent(i) {
+    function createConstructionAgent(x, y) {
          context.beginPath();
-         context.moveTo(i*50, 2);
-         context.lineTo(i*50+48, 28);
-         context.moveTo(i*50, 28);
-         context.lineTo(i*50+48, 2);
+         if(y === 1) {
+             y = 32
+             y_bottom = 58
+         } else {
+             y = 2
+             y_bottom = 28
+         }
+         context.moveTo(x*50, y);
+         context.lineTo(x*50+48, y_bottom);
+         context.moveTo(x*50, y_bottom);
+         context.lineTo(x*50+48, y);
          context.strokeStyle = 'red';
          context.setLineDash([]);
          context.stroke();
          context.fillStyle = 'black';
-         context.fillRect(i*50, 2, 48, 26);
+         context.fillRect(x*50, y, 48, 26);
          context.stroke();
     }
 };

@@ -20,11 +20,14 @@ class Entrance(Agent):
 
     def create_random_car(self):
         score = np.random.choice([1, 0], p=[self.spawn_probability, 1 - self.spawn_probability])
-        if score and self.model.grid.is_cell_empty((self.pos[0] + 1, self.pos[1])):
-            car_id = random.randint(1, 1000)
-            car = self.add_unique_car(car_id)
-            y = self.random.randrange(self.model.grid.height)
-            self.model.grid.place_agent(car, (self.pos[0], y))
+        print(self.pos)
+        try:
+            if score and self.model.grid.is_cell_empty((self.pos[0] + 1, self.pos[1])):
+                car_id = random.randint(1, 1000)
+                car = self.add_unique_car(car_id)
+                self.model.grid.place_agent(car, (self.pos[0] + 1, self.pos[1]))
+        except:
+            print("ERROR")
 
     def add_unique_car(self, i):
         try:

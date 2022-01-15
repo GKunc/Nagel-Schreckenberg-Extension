@@ -38,7 +38,8 @@ class Car(Agent):
 
     def change_lane(self):
         lane_to_change = self.get_lane_to_change()
-        self.model.grid.move_agent(self, (self.pos[0], lane_to_change))
+        if self.pos is not None:
+            self.model.grid.move_agent(self, (self.pos[0], lane_to_change))
 
     def should_change_lane(self):
         # 1. has car moving slower ahead
@@ -69,22 +70,24 @@ class Car(Agent):
 
     def has_enough_space_ahead_on_opposite_lane(self):
         lane_to_change = self.get_lane_to_change()
-        for i in range(self.pos[0] + 1, self.pos[0] + self.velocity):
-            try:
-                if not (self.model.grid.is_cell_empty((i, lane_to_change))):
+        if self.pos is not None:
+            for i in range(self.pos[0] + 1, self.pos[0] + self.velocity):
+                try:
+                    if not (self.model.grid.is_cell_empty((i, lane_to_change))):
+                        return False
+                except IndexError:
                     return False
-            except IndexError:
-                return False
         return True
 
     def has_enough_space_behind_on_opposite_lane(self):
         lane_to_change = self.get_lane_to_change()
-        for i in range(self.pos[0] - self.velocity, self.pos[0] + 1):
-            try:
-                if not (self.model.grid.is_cell_empty((i, lane_to_change))):
+        if self.pos is not None:
+            for i in range(self.pos[0] - self.velocity, self.pos[0] + 1):
+                try:
+                    if not (self.model.grid.is_cell_empty((i, lane_to_change))):
+                        return False
+                except IndexError:
                     return False
-            except IndexError:
-                return False
         return True
 
     def increase_velocity(self):
@@ -121,12 +124,13 @@ class Car(Agent):
         return ((car_ahead_position - current_position + self.road_length) % self.road_length)-1
 
     def move_or_remove_car(self):
-        new_position = self.pos[0] + self.velocity
-        if new_position > self.road_length:
-            self.model.grid.remove_agent(self)
-            self.model.schedule.remove(self)
-        else:
-            self.model.grid.move_agent(self, (new_position, self.pos[1]))
+        if self.pos is not None:
+            new_position = self.pos[0] + self.velocity
+            if new_position > self.road_length:
+                self.model.grid.remove_agent(self)
+                self.model.schedule.remove(self)
+            else:
+                self.model.grid.move_agent(self, (new_position, self.pos[1]))
 
     def get_lane_to_change(self):
         try:

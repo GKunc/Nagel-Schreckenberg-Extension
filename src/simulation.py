@@ -20,7 +20,7 @@ class Simulation(Model):
     def __init__(self, width=100, height=1):
         self.road_length = width
         self.num_agents = 20
-        self.construction_length = 30
+        self.construction_length = 15
         self.grid = MultiGrid(width, height, True)
         self.schedule = RandomActivation(self)
 
@@ -32,13 +32,18 @@ class Simulation(Model):
             self.grid.place_agent(car, (x, y))
 
         for i in range(self.construction_length):
-            construction = Construction(i+10000, self)
+            construction = Construction(i + 10000, self)
             self.grid.place_agent(construction, (i + 20, 0))
             self.schedule.add(construction)
 
-        exit = Exit(999999, self)
-        self.schedule.add(exit)
-        self.grid.place_agent(exit, (40, 1))
+        for i in range(self.construction_length):
+            construction = Construction(i + 11000, self)
+            self.grid.place_agent(construction, (i + 40, 1))
+            self.schedule.add(construction)
+
+        # exit = Exit(999999, self)
+        # self.schedule.add(exit)
+        # self.grid.place_agent(exit, (40, 1))
 
         # entrance = Entrance(222222, self, self.road_length)
         # self.schedule.add(entrance)
@@ -67,8 +72,6 @@ class Simulation(Model):
 
     def create_car(self, i):
         car_type = self.random.randrange(20)
-        # score = np.random.choice([1, 0], p=[self.spawn_probability, 1 - self.spawn_probability])
-        # if score:
         if car_type % 2 == 0:  # 2, 4, 6, 8, 10, 12, 14, 16, 18, 20
             return FamilyCar(i, self, self.road_length)
         elif car_type % 3 == 0:  # 3, 9, 15
