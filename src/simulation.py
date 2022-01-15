@@ -40,9 +40,9 @@ class Simulation(Model):
         self.schedule.add(exit)
         self.grid.place_agent(exit, (40, 1))
 
-        entrance = Entrance(222222, self, self.road_length)
-        self.schedule.add(entrance)
-        self.grid.place_agent(entrance, (22, 1))
+        # entrance = Entrance(222222, self, self.road_length)
+        # self.schedule.add(entrance)
+        # self.grid.place_agent(entrance, (22, 1))
         self.running = True
 
     def step(self):

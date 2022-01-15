@@ -60,7 +60,7 @@ def agent_portrayal(agent):
 
 if __name__ == '__main__':
     # grid = CanvasGrid(agent_portrayal, 100, 2, 500, 30)
-    highway = HighwayModule(list(range(1)), 100, 1000)
+    highway = HighwayModule(60, 3000)
 
     server = ModularServer(Simulation,
                            [highway],
