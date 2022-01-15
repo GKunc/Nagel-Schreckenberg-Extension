@@ -32,5 +32,9 @@ class HighwayModule(VisualizationElement):
                     car_agents.append({"type": "SportsCar", "x": int(agent.pos[0]), "y": int(agent.pos[1])})
                 elif type(agent) == road.construction.Construction:
                     car_agents.append({"type": "Construction", "x": int(agent.pos[0]), "y": int(agent.pos[1])})
+                elif type(agent) == road.exit.Exit:
+                    car_agents.append({"type": "Exit", "x": int(agent.pos[0]), "y": int(agent.pos[1])})
+                elif type(agent) == road.entrance.Entrance:
+                    car_agents.append({"type": "Entrance", "x": int(agent.pos[0]), "y": int(agent.pos[1])})
 
         return car_agents

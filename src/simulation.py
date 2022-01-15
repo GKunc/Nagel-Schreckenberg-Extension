@@ -38,16 +38,13 @@ class Simulation(Model):
 
         for i in range(self.construction_length):
             construction = Construction(i + 11000, self)
-            self.grid.place_agent(construction, (i + 40, 1))
+            self.grid.place_agent(construction, (i + 50, 1))
             self.schedule.add(construction)
 
-        # exit = Exit(999999, self)
-        # self.schedule.add(exit)
-        # self.grid.place_agent(exit, (40, 1))
+        exit = Exit(999999, self)
+        self.schedule.add(exit)
+        self.grid.place_agent(exit, (40, 1))
 
-        # entrance = Entrance(222222, self, self.road_length)
-        # self.schedule.add(entrance)
-        # self.grid.place_agent(entrance, (22, 1))
         self.running = True
 
     def step(self):

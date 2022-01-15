@@ -1,8 +1,4 @@
 var HighwayModule = function(canvas_width, canvas_height) {
-    // Todo
-    // Add exits and entries to visualization
-    // Check why red car can go on constructions
-
     let canvas_tag = "<canvas width='" + canvas_width + "' height='" + canvas_height + "' ";
     canvas_tag += "style='border:1px dotted'></canvas>";
     let canvas = $(canvas_tag)[0];
@@ -10,7 +6,6 @@ var HighwayModule = function(canvas_width, canvas_height) {
     let context = canvas.getContext("2d");
 
     this.render = function(data) {
-        console.log(data)
         createLanes();
 
         for(let i=0; i<data.length; i++) {
@@ -26,6 +21,13 @@ var HighwayModule = function(canvas_width, canvas_height) {
             if(data[i].type === "Construction") {
                 createConstructionAgent(data[i].x, data[i].y);
             }
+            if(data[i].type === "Exit") {
+                createExitAgent(data[i].x, data[i].y);
+            }
+            if(data[i].type === "Entrance") {
+                createEntranceAgent(data[i].x, data[i].y);
+            }
+
         }
     };
 
@@ -44,7 +46,7 @@ var HighwayModule = function(canvas_width, canvas_height) {
     }
 
     function createTruckAgent(x, y) {
-        context.fillStyle = 'green';
+        context.fillStyle = 'yellow';
         if (y === 0)
             context.fillRect(x*50, 5, 45, 20);
         else
@@ -60,7 +62,7 @@ var HighwayModule = function(canvas_width, canvas_height) {
     }
 
     function createSportsCarAgent(x, y) {
-        context.fillStyle = 'red';
+        context.fillStyle = 'purple';
         if (y === 0)
             context.fillRect(x*50, 5, 30, 20);
         else
@@ -84,6 +86,34 @@ var HighwayModule = function(canvas_width, canvas_height) {
          context.setLineDash([]);
          context.stroke();
          context.fillStyle = 'black';
+         context.fillRect(x*50, y, 48, 26);
+         context.stroke();
+    }
+
+     function createExitAgent(x, y) {
+         context.beginPath();
+         if(y === 1) {
+             y = 32
+             y_bottom = 58
+         } else {
+             y = 2
+             y_bottom = 28
+         }
+         context.fillStyle = 'red';
+         context.fillRect(x*50, y, 48, 26);
+         context.stroke();
+    }
+
+     function createEntranceAgent(x, y) {
+         context.beginPath();
+         if(y === 1) {
+             y = 32
+             y_bottom = 58
+         } else {
+             y = 2
+             y_bottom = 28
+         }
+         context.fillStyle = 'green';
          context.fillRect(x*50, y, 48, 26);
          context.stroke();
     }
